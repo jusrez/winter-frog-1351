@@ -102,11 +102,20 @@ RSpec.describe 'Plots Index' do
         plot_3_orchid = PlotPlant.create!(plot_id: plot_3.id, plant_id: orchid.id)
         plot_3_basil = PlotPlant.create!(plot_id: plot_3.id, plant_id: basil.id)
         plot_4_succulent = PlotPlant.create!(plot_id: plot_4.id, plant_id: succulent.id)
+        plot_4_sunflower = PlotPlant.create!(plot_id: plot_4.id, plant_id: sunflower.id)
 
         visit '/plots'
 
-        within "#plant-#{sunflower.id}" do
-          expect(page).to have_link("Remove this plant from this plot")
+         within "#plot-#{plot_1.id}" do
+          within "#plant-#{sunflower.id}" do
+            expect(page).to have_link("Remove this plant from this plot")
+          end
+        end
+
+         within "#plot-#{plot_4.id}" do
+          within "#plant-#{sunflower.id}" do
+            expect(page).to have_link("Remove this plant from this plot")
+          end
         end
 
         within "#plant-#{carrot.id}" do
@@ -133,8 +142,10 @@ RSpec.describe 'Plots Index' do
           expect(page).to have_link("Remove this plant from this plot")
         end
 
-        within "#plant-#{sunflower.id}" do
-          click_link "Remove this plant from this plot"
+        within "#plot-#{plot_1.id}" do
+          within "#plant-#{sunflower.id}" do
+            click_link "Remove this plant from this plot"
+          end
         end
 
         expect(current_path).to eq("/plots")
@@ -143,6 +154,13 @@ RSpec.describe 'Plots Index' do
           expect(page).to_not have_content(sunflower.name)
           expect(page).to have_content(carrot.name)
         end
+
+         within "#plot-#{plot_4.id}" do
+          expect(page).to have_content(sunflower.name)
+          expect(page).to have_content(succulent.name)
+        end
+
+        
       end
     end
   end
