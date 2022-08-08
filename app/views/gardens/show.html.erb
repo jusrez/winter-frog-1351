@@ -1,0 +1,7 @@
+<h2><%= @garden.name %>'s Plants</h2>
+<% @plants.each do |plant| %>
+<div id = "plant-<%= plant.id %>">
+  <h3><%= plant.name %></h3>
+  <p>Days To Harvest: <%= plant.days_to_harvest %></p>
+</div>
+<% end %>
