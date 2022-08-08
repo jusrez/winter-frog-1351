@@ -78,6 +78,50 @@ RSpec.describe 'Plots Index' do
           expect(page).to_not have_content(@basil.name)       
         end
       end
+
+      it 'next to each plants name I see a link to remove that plant from that plot. When I click on that link, im returned to the plots index page and i no longer see that plant listed under that plot' do
+        
+        visit '/plots'
+
+        within "#plant-#{@sunflower.id}" do
+          expect(page).to have_link("Remove this plant from this plot")
+        end
+
+        within "#plant-#{@carrot.id}" do
+          expect(page).to have_link("Remove this plant from this plot")          
+        end
+
+        within "#plant-#{@lily.id}" do
+          expect(page).to have_link("Remove this plant from this plot")
+        end
+
+        within "#plant-#{@tomato.id}" do
+          expect(page).to have_link("Remove this plant from this plot")
+        end
+
+        within "#plant-#{@succulent.id}" do
+          expect(page).to have_link("Remove this plant from this plot")
+        end
+
+        within "#plant-#{@orchid.id}" do
+          expect(page).to have_link("Remove this plant from this plot")
+        end
+
+        within "#plant-#{@basil.id}" do
+          expect(page).to have_link("Remove this plant from this plot")
+        end
+
+        within "#plant-#{@sunflower.id}" do
+          click_link "Remove this plant from this plot"
+        end
+
+        expect(current_path).to eq("/plots")
+        
+        within "#plot-#{@plot_1.id}" do
+          expect(page).to_not have_content(@sunflower.name)
+          expect(page).to have_content(@carrot.name)
+        end
+      end
     end
   end
 end
